@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Карта предложений {{ official_place }}</title>
+    </head>
+    <body>
+        <h1>Вход в панель управления сервисом "Карта предложений {{ official_place }}"</h1>
+        <h2>Администрация сайта: {{ official_name }}</h2>
+        <l>Административный токен: </l>
+        <input type="text" id="token"/>
+        <button onclick="login()">Войти</button>
+        <script>
+            var tokenInput = document.getElementById("token");
+            function login(){
+                fetch('/official/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({"official_token": tokenInput.value})
+                }).then((response) => {
+                    return response.text();
+                }).then((html) => {
+                    document.body.innerHTML = html;
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,7 +1,12 @@
 [project]
 name = "bulbatech-citymap"
-version = "0.1.0"
-description = "Add your description here"
+version = "26011"
+description = "BulbaTech-citymap is digital city map with suggestions from citizens"
 readme = "README.md"
-requires-python = ">=3.14"
-dependencies = []
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = ["tornado"]
+
+[project.urls]
+Repository = "https://github.com/lb357/bulbatech-citymap"

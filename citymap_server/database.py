@@ -3,6 +3,8 @@ import sqlite3
 import secrets
 import json
 from time import time
+import logging
+import hasher
 
 
 db_paths: dict = {
@@ -47,6 +49,7 @@ class DB:
 
     def initialize_system(self):
         """Создает структуру папок и таблиц при первом запуске."""
+        logging.info("Database initializing...")
         os.makedirs('data', exist_ok=True)
 
         # --- Таблицы пользователей и сессий ---
@@ -115,7 +118,7 @@ class DB:
         with self.get_connection('stats') as conn:
             conn.execute("CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, action TEXT, timestamp INTEGER)")
 
-        print("Система БД инициализирована успешно.")
+        logging.info("Database initialization is completed!")
 
     # --- МЕТОДЫ АВТОРИЗАЦИИ ---
 
@@ -125,6 +128,7 @@ class DB:
         Возвращает True при успехе, False если email/СНИЛС заняты.
         """
         try:
+            password = hasher.sha256(password)
             with self.get_connection('users') as conn:
                 conn.execute("""INSERT INTO users
                     (email, password_hash, firstname, lastname, patronymic, birthdate, snils)
@@ -140,6 +144,7 @@ class DB:
         Проверка логина и пароля.
         При успехе генерирует и возвращает access_token (str), иначе пустую строку.
         """
+        password = hasher.sha256(password)
         with self.get_connection('users') as conn:
             user = conn.execute("SELECT user_id FROM users WHERE email = ? AND password_hash = ?",
                                 (email, password)).fetchone()
