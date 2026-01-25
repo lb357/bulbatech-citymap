@@ -172,7 +172,7 @@ class TicketsHandler(Handler):
     async def get(self):
         user_id = self.get_user()
         if user_id:
-            tickets = self.database.get_tickets(user_id=self.current_user, **self.parse_url(page=int))
+            tickets = self.database.get_tickets(user_id=user_id, **self.parse_url(page=int))
             await self.finish(tickets)
 
 
