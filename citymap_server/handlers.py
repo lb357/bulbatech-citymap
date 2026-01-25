@@ -181,6 +181,7 @@ class UserHandler(Handler):
         user_id = self.get_user()
         if user_id:
             user_data = self.database.get_user_data(user_id=user_id)
+            user_data["user_id"] = user_id
             await self.finish(user_data)
 
 
