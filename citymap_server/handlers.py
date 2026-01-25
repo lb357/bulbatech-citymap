@@ -79,25 +79,25 @@ class Handler(RequestHandler):
 
 class MainHandler(Handler):
     async def get(self):
-        await self.render("template/home.html",
+        await self.render("templates/home.html",
                           official_place=self.official_place, version=self.version)
 
 class LegalHandler(Handler):
     async def get(self):
-        await self.render("template/legal.html",
+        await self.render("templates/legal.html",
                           official_place=self.official_place, official_name=self.official_name)
 
 
 class OfficialHandler(Handler):
     async def get(self):
-        await self.render("template/official/login.html",
+        await self.render("templates/official/login.html",
                           official_place=self.official_place, official_name=self.official_name)
 
 
 class OfficialLoginHandler(Handler):
     async def post(self):
         if self.check_official():
-            await self.render("template/official/panel.html",
+            await self.render("templates/official/panel.html",
                               official_place=self.official_place, official_name=self.official_name)
 
 
