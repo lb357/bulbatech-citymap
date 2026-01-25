@@ -15,6 +15,7 @@ Functions gets user_id by access_token from signed cookie
 | GET | /api/tickets | ?page=int | | {"page": int, "user_id": int, "tickets": [{"title": str, "icon": str, "ticket_id": int}, ...]} | |
 | POST | /api/user | | | {"email": str, "lastname": str, "firstname": str, "patronymic": str, "birthdate": str(date), "snils": int, "user_id": int} | |
 | POST | /api/new | | {"title": str, "text": str, "category": int, "point": [float, float], "icon": str} | {"ticket_id": int, "success": bool, "uploaded": bool} | files can be added to request body |
+| POST | /api/edit | | | | todo |
 | POST | /api/comment | | {"ticket_id": int, "text": str} | {"success": bool} |  |
 | GET | /api/like | ?ticket_id=int | | {"success": bool, "delta": int} | |
 | GET | /api/dislike | ?ticket_id=int | | {"success": bool, "delta": int} | |
