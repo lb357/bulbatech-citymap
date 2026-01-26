@@ -163,6 +163,8 @@ class TicketHandler(Handler):
         ticket = self.database.get_ticket(**self.parse_url(ticket_id=int))
         user_data = self.database.get_user_data(user_id=ticket["user_id"])
         ticket["fullname"] = f"{user_data['firstname']} {user_data['lastname'][0]}."
+        ticket["likes"] = len(ticket["likes"])
+        ticket["dislikes"] = len(ticket["dislikes"])
         await self.finish(ticket)
 
 
