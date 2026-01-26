@@ -141,6 +141,8 @@ class StatusHandler(Handler):
             "product": "BulbaTech-citymap",
             "repository": "https://github.com/lb357/bulbatech-citymap",
             "version": self.version,
+            "official_place": self.official_place,
+            "official_name": self.official_name,
             "timestamp": int(time.time())
         })
 
