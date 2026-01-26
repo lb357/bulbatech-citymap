@@ -63,7 +63,7 @@ class Handler(RequestHandler):
         out = {}
         arg: str
         for arg in scheme:
-            if arg in out:
+            if arg in data:
                 out[arg] = scheme[arg](data[arg])
             else:
                 self.send_error(400)
