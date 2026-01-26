@@ -30,7 +30,7 @@ class Handler(RequestHandler):
         if not access_token_bytes:
             self.send_error(401)
             return None
-        access_token = access_token_bytes.decode("ascii")
+        access_token = access_token_bytes.decode("UTF-8")
         ret, user_id = self.database.check_token(access_token)
         if ret:
             return user_id
@@ -49,7 +49,7 @@ class Handler(RequestHandler):
     def login(self):
         ret, access_token = self.database.login(**self.parse_data(email=str, password=str))
         if ret:
-            self.set_signed_cookie("access_token", access_token.encode("ascii"), expires_days=7)
+            self.set_signed_cookie("access_token", access_token.encode("UTF-8"), expires_days=7)
             self.finish({"success": True})
         else:
             self.finish({"success": False})
@@ -124,7 +124,7 @@ class LogInHandler(Handler):
 
 class LogOutHandler(Handler):
     async def post(self):
-        access_token = self.get_signed_cookie("access_token").decode("ascii")
+        access_token = self.get_signed_cookie("access_token").decode("UTF-8")
         ret = self.database.logout(access_token)
         await self.finish({"success": ret})
 
