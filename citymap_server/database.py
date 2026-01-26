@@ -139,7 +139,7 @@ class DB:
         except sqlite3.IntegrityError:
             return False
 
-    def login(self, email, password) -> str:
+    def login(self, email, password):
         """
         Проверка логина и пароля.
         При успехе генерирует и возвращает access_token (str), иначе пустую строку.
@@ -148,14 +148,14 @@ class DB:
         with self.get_connection('users') as conn:
             user = conn.execute("SELECT user_id FROM users WHERE email = ? AND password_hash = ?",
                                 (email, password)).fetchone()
-            if not user: return ""
+            if not user: return False, ""
 
             token = secrets.token_hex(32)
             now = int(time())
             # Токен живет 7 дней (604800 секунд)
             conn.execute("INSERT INTO sessions (user_id, access_token, created_at, expires_at) VALUES (?, ?, ?, ?)",
                          (user['user_id'], token, now, now + 604800))
-        return token
+        return True, token
 
     def check_token(self, token: str):
         """
