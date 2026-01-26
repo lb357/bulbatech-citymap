@@ -162,9 +162,7 @@ class TicketHandler(Handler):
     async def get(self):
         ticket = self.database.get_ticket(**self.parse_url(ticket_id=int))
         user_data = self.database.get_user_data(user_id=ticket["user_id"])
-        ticket["lastname"] = user_data['lastname']
-        ticket["firstname"] = user_data['firstname']
-        ticket["patronymic"] = user_data['patronymic']
+        ticket["fullname"] = f"{user_data['firstname']} {user_data['lastname'][0]}."
         await self.finish(ticket)
 
 
