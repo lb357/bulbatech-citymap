@@ -86,7 +86,6 @@ class DB:
                 title TEXT,
                 text TEXT,
                 category INTEGER,
-                icon TEXT,
                 point_lat REAL,
                 point_lon REAL,
                 timestamp INTEGER,
@@ -186,7 +185,7 @@ class DB:
 
     # --- МЕТОДЫ ТИКЕТОВ ---
 
-    def create_ticket(self, user_id, title, text, category, files, point: tuple, icon: str = "") -> list:
+    def create_ticket(self, user_id, title, text, category, files, point: tuple) -> list:
         """
         Создание новой заявки (тикета).
         Возвращает [True, ticket_id] при успехе.
@@ -195,9 +194,9 @@ class DB:
             with self.get_connection('content') as conn:
                 cur = conn.cursor()
                 cur.execute("""INSERT INTO tickets
-                    (user_id, title, text, category, icon, point_lat, point_lon, files_json, timestamp)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (user_id, title, text, category, icon, point[0], point[1], json.dumps(files), int(time())))
+                    (user_id, title, text, category, point_lat, point_lon, files_json, timestamp)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (user_id, title, text, category, point[0], point[1], json.dumps(files), int(time())))
                 return [True, cur.lastrowid]
         except Exception:
             return [False, -1]
