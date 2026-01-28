@@ -223,8 +223,7 @@ class NewHandler(Handler):
                                             title=str,
                                             text=str,
                                             category=int,
-                                            point=self.point,
-                                            icon=str
+                                            point=self.point
                                         ))
             if ret:
                 await self.finish({"ticket_id": ticket_id, "success": True, "uploaded": True})
