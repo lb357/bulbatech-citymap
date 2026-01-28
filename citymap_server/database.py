@@ -218,7 +218,7 @@ class DB:
                 (SELECT COUNT(*) FROM ticket_reactions WHERE ticket_id = t.ticket_id AND reaction_type = 1) -
                 (SELECT COUNT(*) FROM ticket_reactions WHERE ticket_id = t.ticket_id AND reaction_type = -1) as rating
                 FROM tickets t
-                WHERE (category = ? OR ? = 0) AND archived = 0
+                WHERE (category = ? OR ? = -1) AND archived = 0
                 ORDER BY pinned DESC, rating DESC LIMIT ? OFFSET ?
             """
             tickets = conn.execute(sql, (category, category, limit, offset)).fetchall()
