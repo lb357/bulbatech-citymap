@@ -11,7 +11,7 @@ Functions gets user_id by access_token from signed cookie
 | POST | /api/recover | | | | todo |
 | GET | /api/feed | ?page=int&category=int | | {"page": int, "category": int, "tickets": [{see /api/ticket}, ...]} | |
 | GET | /api/ticket | ?ticket_id=int | | {"ticket_id": int, "icon": str(UNICODE), "title": str, "category": int, "text": str, "files": [str(url), ...] "user_id": int, "fullname": str, "likes": int, "dislikes": int, "official_comment": str, "comments": [ {"user_id": int, "text": str}, ... ], "point": [float, float], "pinned": bool, "timestamp": int, "archive": bool} | |
-| GET | /api/points | | | {"points": [ ["point": [float, float], "ticket_id": int], ...]} | |
+| GET | /api/points | | | {"points": [ [[float, float] (point), int (ticket_id)], ...]} | |
 | GET | /api/tickets | ?page=int | | {"page": int, "user_id": int, "tickets": [{see /api/ticket}, ...]} | |
 | POST | /api/user | | | {"email": str, "lastname": str, "firstname": str, "patronymic": str, "birthdate": str(date), "snils": int, "user_id": int} | |
 | POST | /api/new | | {"title": str, "text": str, "category": int, "point": [float, float], "icon": str} | {"ticket_id": int, "success": bool, "uploaded": bool} | files can be added to request body |
