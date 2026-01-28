@@ -30,7 +30,7 @@ def make_app():
         r"/api/like": LikeHandler,
         r"/api/dislike": DislikeHandler,
         r"/api/official-comment": OfficialCommentHandler,
-        r"/api/statistics": StatisticHandler,
+        r"/api/statistic": StatisticHandler,
         r"/api/pin": PinHandler,
         r"/api/delete": DeleteHandler,
         r"/api/archive": ArchiveHandler
