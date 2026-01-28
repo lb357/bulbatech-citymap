@@ -37,8 +37,7 @@ class DB:
             column_name = col[0]
             value = row[idx]
 
-
-            if column_name == 'files_json' and isinstance(value, str):
+            if column_name in ['files_json', 'point'] and isinstance(value, str):
                 try:
                     d[column_name] = json.loads(value)
                 except (json.JSONDecodeError, TypeError):
@@ -86,8 +85,7 @@ class DB:
                 title TEXT,
                 text TEXT,
                 category INTEGER,
-                point_lat REAL,
-                point_lon REAL,
+                point TEXT DEFAULT '[0, 0]',
                 timestamp INTEGER,
                 pinned INTEGER DEFAULT 0,
                 archived INTEGER DEFAULT 0,
@@ -194,9 +192,11 @@ class DB:
             with self.get_connection('content') as conn:
                 cur = conn.cursor()
                 cur.execute("""INSERT INTO tickets
-                    (user_id, title, text, category, point_lat, point_lon, files_json, timestamp)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (user_id, title, text, category, point[0], point[1], json.dumps(files), int(time())))
+                    (user_id, title, text, category, point, files_json, timestamp)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                    (user_id, title, text, category,
+                        json.dumps(point), # Сериализуем список [lat, lon]
+                        json.dumps(files), int(time())))
                 return [True, cur.lastrowid]
         except Exception:
             return [False, -1]
@@ -217,10 +217,11 @@ class DB:
                 SELECT t.*,
                 (SELECT COUNT(*) FROM ticket_reactions WHERE ticket_id = t.ticket_id AND reaction_type = 1) -
                 (SELECT COUNT(*) FROM ticket_reactions WHERE ticket_id = t.ticket_id AND reaction_type = -1) as rating
-                FROM tickets t WHERE category = ? AND archived = 0
+                FROM tickets t
+                WHERE (category = ? OR ? = 0) AND archived = 0
                 ORDER BY pinned DESC, rating DESC LIMIT ? OFFSET ?
             """
-            tickets = conn.execute(sql, (category, limit, offset)).fetchall()
+            tickets = conn.execute(sql, (category, category, limit, offset)).fetchall()
             return {"page": page, "category": category, "tickets": tickets}
 
     def get_ticket(self, ticket_id: int) -> dict:
@@ -235,7 +236,6 @@ class DB:
             ticket['likes'] = [r['user_id'] for r in conn.execute("SELECT user_id FROM ticket_reactions WHERE ticket_id = ? AND reaction_type = 1", (ticket_id,)).fetchall()]
             ticket['dislikes'] = [r['user_id'] for r in conn.execute("SELECT user_id FROM ticket_reactions WHERE ticket_id = ? AND reaction_type = -1", (ticket_id,)).fetchall()]
             ticket['comments'] = conn.execute("SELECT user_id, text, is_official FROM comments WHERE ticket_id = ?", (ticket_id,)).fetchall()
-            ticket['point'] = [ticket['point_lat'], ticket['point_lon']]
             return ticket
 
     def get_tickets(self, user_id: int, page: int = 1) -> dict:
@@ -247,10 +247,10 @@ class DB:
             return {"page": page, "user_id": user_id, "tickets": rows}
 
     def get_points(self) -> dict:
-        """Возвращает координаты всех активных (неархивных) тикетов для карты."""
+        """Возвращает координаты всех активных тикетов."""
         with self.get_connection('content') as conn:
-            rows = conn.execute("SELECT point_lat, point_lon, ticket_id FROM tickets WHERE archived = 0").fetchall()
-            return {"points": [[ [r['point_lat'], r['point_lon']], r['ticket_id'] ] for r in rows]}
+            rows = conn.execute("SELECT point, ticket_id FROM tickets WHERE archived = 0").fetchall()
+            return {"points": [[ r['point'], r['ticket_id'] ] for r in rows]}
 
     # --- РЕАКЦИИ И КОММЕНТАРИИ ---
 
