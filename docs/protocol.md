@@ -2,7 +2,7 @@
 
 
 Functions gets user_id by access_token from signed cookie
-|method|endpoint|request url args| request json body | response json body | comment |
+|method|endpoint|request url args| request json/form-data body | response json body | comment |
 |-|-|-|-|-|-|
 | POST | /api/signup |  | {email: str, password: str, lastname: str, firstname: str, patronymic:str, birthdate: str, snils: str} | {"success": bool} | datetime for birthdate in %d.%m.%Y; calls /api/login |
 | POST | /api/login |  | {email: str, password: str} | {"success": bool} | set access_token in signed cookie |
