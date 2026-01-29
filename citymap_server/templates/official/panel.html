@@ -1,9 +1,22 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
     <head>
+        <meta charset="UTF-8">
         <title>Карта предложений {{ official_place }}</title>
+        <link rel="stylesheet" href="/static/official.css">
     </head>
     <body>
         <h1>Панель управления сервисом "Карта предложений {{ official_place }}"</h1>
-        <h2>Администрация сайта: {{ official_name }}</h2>
+        <hr/>
+        <p id="statistic">Статистика / загрузка...</p>
+
+        <div id="feed">
+            <p>Загрузка...</p>
+        </div>
+        <hr/>
+        <button id="previous_button" onclick="setPage(page-1)">Предыдущая страница</button>
+        <button id="next_button" onclick="setPage(page+1)">Следующая страница</button>
+        <h3>Администрация сайта: {{ official_name }} / Сервис реализован на основе BulbaTech-citymap</h3>
+        <script src="static/official.js"></script>
     </body>
 </html>
