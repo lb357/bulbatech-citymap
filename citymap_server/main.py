@@ -6,9 +6,8 @@ import tornado
 import database
 
 
-def make_app():
-    config_data, cookie_secret = config.load_config()
-    kwargs = {"database": database.DB()}|config_data
+def make_app(config_data_, cookie_secret_):
+    kwargs = {"database": database.DB()}|config_data_
     handlers = {
         r"/": MainHandler,
         r"/legal": LegalHandler,
@@ -42,16 +41,17 @@ def make_app():
     ]
     return tornado.web.Application(
         [(url, handlers[url], kwargs) for url in handlers] + static_handlers,
-        cookie_secret=cookie_secret)
+        cookie_secret=cookie_secret_)
 
 
 if __name__ == "__main__":
     try:
         logger.init_logger("debug")
         logging.info("BulbaTech-citymap server starting...")
-        app = make_app()
+        config_data, cookie_secret, address, port = config.load_config()
+        app = make_app(config_data, cookie_secret)
         logging.info("BulbaTech-citymap server started!")
-        app.listen(8888)
+        app.listen(port=port, address=address)
         tornado.ioloop.IOLoop.current().start()
     except Exception as exception:
         logging.critical(f"{exception} / Server stopped!")
