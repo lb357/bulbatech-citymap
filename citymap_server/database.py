@@ -263,13 +263,19 @@ class DB:
         """
         with self.get_connection('content') as conn:
             cur = conn.execute("SELECT reaction_type FROM ticket_reactions WHERE user_id = ? AND ticket_id = ?", (user_id, ticket_id)).fetchone()
+
             if not cur:
                 conn.execute("INSERT INTO ticket_reactions (user_id, ticket_id, reaction_type) VALUES (?, ?, ?)", (user_id, ticket_id, r_type))
+                conn.commit()
                 return [True, r_type]
+
             if cur['reaction_type'] == r_type:
                 conn.execute("DELETE FROM ticket_reactions WHERE user_id = ? AND ticket_id = ?", (user_id, ticket_id))
+                conn.commit()
                 return [True, 0]
+
             conn.execute("UPDATE ticket_reactions SET reaction_type = ? WHERE user_id = ? AND ticket_id = ?", (r_type, user_id, ticket_id))
+            conn.commit()
             return [True, r_type]
 
     def like(self, user_id, ticket_id):
@@ -328,7 +334,7 @@ class DB:
         stats = {}
         with self.get_connection('content') as conn:
             stats['tickets'] = conn.execute("SELECT COUNT(*) as c FROM tickets").fetchone()['c']
-            stats['official_comments'] = conn.execute("SELECT COUNT(*) as c FROM comments WHERE is_official = 1").fetchone()['c']
+            stats['official_comments'] = conn.execute("SELECT COUNT(*) as c FROM tickets WHERE official_comment != ''").fetchone()['c']
         with self.get_connection('users') as conn:
             stats['users'] = conn.execute("SELECT COUNT(*) as c FROM users").fetchone()['c']
         return stats
