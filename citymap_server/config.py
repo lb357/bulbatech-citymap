@@ -29,7 +29,7 @@ def save_default_config():
         "official_place": "<REGION>",
         "official_name": "<DEPARTMENT>",
         "upload_max_size": 10485760,
-        "upload_extensions": [".jpg", ".jpeg", ".fbx", ".mp3", ".mp4", ".doc", ".docx"],
+        "upload_extensions": [".jpg", ".jpeg", ".fbx", ".mp3", ".mp4", ".doc", ".docx", ".pdf"],
     }
     with open("config.json", "w", encoding="UTF-8") as file:
         file.write(json.dumps(config, indent=4))
