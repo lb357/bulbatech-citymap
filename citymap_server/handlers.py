@@ -60,6 +60,8 @@ class Handler(RequestHandler):
 
     def parse_data(self, **scheme) -> dict:
         data: dict = self.request.arguments
+        if len(data) == 0:
+            data = tornado.escape.json_decode(self.request.body)
         out = {}
         arg: str
         for arg in scheme:
