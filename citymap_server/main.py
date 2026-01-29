@@ -6,7 +6,7 @@ import tornado
 import database
 
 
-def make_app(config_data_, cookie_secret_):
+def make_app(config_data_: dict, cookie_secret_: str, path_: str):
     kwargs = {"database": database.DB()}|config_data_
     handlers = {
         r"/": MainHandler,
@@ -34,10 +34,9 @@ def make_app(config_data_, cookie_secret_):
         r"/api/delete": DeleteHandler,
         r"/api/archive": ArchiveHandler
     }
-    path = os.path.dirname(__file__)
     static_handlers = [
-        ("/uploads/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(path, "uploads")}),
-        ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(path, "static")})
+        ("/uploads/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(path_, "uploads")}),
+        ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(path_, "static")})
     ]
     return tornado.web.Application(
         [(url, handlers[url], kwargs) for url in handlers] + static_handlers,
@@ -48,10 +47,20 @@ if __name__ == "__main__":
     try:
         logger.init_logger("debug")
         logging.info("BulbaTech-citymap server starting...")
-        config_data, cookie_secret, address, port = config.load_config()
-        app = make_app(config_data, cookie_secret)
-        logging.info("BulbaTech-citymap server started!")
+        config_data, cookie_secret, address, port, use_https = config.load_config()
+        path = os.path.dirname(__file__)
+        app = make_app(config_data, cookie_secret, path)
         app.listen(port=port, address=address)
+        if use_https:
+            http_server = tornado.httpserver.HTTPServer(
+                app,
+                ssl_options={
+                    "certfile": os.path.join(path, "ssl", "cert.pem"),
+                    "keyfile": os.path.join(path, "ssl", "private.key"),
+                }
+            )
+            http_server.listen(port=443, address=address)
+        logging.info("BulbaTech-citymap server started!")
         tornado.ioloop.IOLoop.current().start()
     except Exception as exception:
         logging.critical(f"{exception} / Server stopped!")
