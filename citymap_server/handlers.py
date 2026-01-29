@@ -56,15 +56,18 @@ class Handler(RequestHandler):
 
     @staticmethod
     def point(map_point) -> list[float]:
-        return [float(map_point[0]), float(map_point[1])]
+        return [float(map_point[0].decode()), float(map_point[1].decode())]
 
     def parse_data(self, **scheme) -> dict:
-        data: dict = tornado.escape.json_decode(self.request.body)
+        data: dict = self.request.arguments
         out = {}
         arg: str
         for arg in scheme:
             if arg in data:
-                out[arg] = scheme[arg](data[arg])
+                if len(data[arg]) == 1:
+                    out[arg] = scheme[arg](data[arg][0].decode())
+                else:
+                    out[arg] = scheme[arg](data[arg])
             else:
                 self.send_error(400)
                 return {}
