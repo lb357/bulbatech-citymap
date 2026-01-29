@@ -55,24 +55,34 @@ class Handler(RequestHandler):
             self.finish({"success": False})
 
     @staticmethod
-    def point(map_point) -> list[float]:
-        return [float(map_point[0].decode()), float(map_point[1].decode())]
+    def point(map_point, with_decode: bool = False) -> list[float]:
+        if with_decode:
+            return [float(map_point[0].decode()), float(map_point[1].decode())]
+        else:
+            return [float(map_point[0]), float(map_point[1])]
 
     def parse_data(self, **scheme) -> dict:
         data: dict = self.request.arguments
-        if len(data) == 0:
-            data = tornado.escape.json_decode(self.request.body)
         out = {}
         arg: str
-        for arg in scheme:
-            if arg in data:
-                if len(data[arg]) == 1:
-                    out[arg] = scheme[arg](data[arg][0].decode())
-                else:
+        if len(data) == 0:
+            data = tornado.escape.json_decode(self.request.body)
+            for arg in scheme:
+                if arg in data:
                     out[arg] = scheme[arg](data[arg])
-            else:
-                self.send_error(400)
-                return {}
+                else:
+                    self.send_error(400)
+                    return {}
+        else:
+            for arg in scheme:
+                if arg in data:
+                    if len(data[arg]) == 1:
+                        out[arg] = scheme[arg](data[arg][0].decode())
+                    else:
+                        out[arg] = scheme[arg](data[arg], True)
+                else:
+                    self.send_error(400)
+                    return {}
         return out
 
     def parse_url(self, **scheme) -> dict:
