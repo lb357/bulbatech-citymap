@@ -18,9 +18,9 @@ def load_config():
         with open(".COOKIE_SECRET", "r", encoding="UTF-8") as file:
             cookie_secret = file.read()
         config["version"] = VERSION
-        address, port = config.pop("address"), config.pop("port")
+        address, port, use_https = config.pop("address"), config.pop("port"), config.pop("use_https")
         logging.info(f"Config loaded!")
-        return config, cookie_secret, address, port
+        return config, cookie_secret, address, port, use_https
     except Exception as exception:
         logging.warning(f"{exception} / Using default config...")
         return save_default_config()
@@ -32,7 +32,8 @@ def save_default_config():
         "upload_max_size": 10485760,
         "upload_extensions": [".jpg", ".jpeg", ".png", ".fbx", ".mp3", ".mp4", ".doc", ".docx", ".pdf"],
         "address": "0.0.0.0",
-        "port": 8888
+        "port": 80,
+        "use_https": False
     }
     with open("config.json", "w", encoding="UTF-8") as file:
         file.write(json.dumps(config, indent=4))
@@ -43,6 +44,6 @@ def save_default_config():
         cookie_secret = hasher.sha256(str(random.random()))+hasher.sha256(str(time.time()/2))
         file.write(cookie_secret)
     config["version"] = VERSION
-    address, port = config.pop("address"), config.pop("port")
+    address, port, use_https = config.pop("address"), config.pop("port"), config.pop("use_https")
     logging.info(f"Default config loaded!")
-    return config, cookie_secret, address, port
+    return config, cookie_secret, address, port, use_https
