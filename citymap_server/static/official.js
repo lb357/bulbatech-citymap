@@ -31,6 +31,7 @@ function addTicket(ticket_id, user_id, title, text, point, timestamp, pinned, of
     var ticketDiv = document.createElement('div');
     ticketDiv.innerHTML = ticket_html;
     for (const file of files) {
+        ticketDiv.appendChild(document.createElement("br"));
         var link = document.createElement("a");
         link.href = file;
         link.innerText = "Вложенный файл";
