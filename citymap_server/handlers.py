@@ -56,6 +56,8 @@ class Handler(RequestHandler):
 
     @staticmethod
     def point(map_point, with_decode: bool = False) -> list[float]:
+        if isinstance(map_point, str):
+            map_point = tornado.escape.json_decode(map_point)
         if with_decode:
             return [float(map_point[0].decode()), float(map_point[1].decode())]
         else:
