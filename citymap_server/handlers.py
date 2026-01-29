@@ -281,7 +281,7 @@ class DislikeHandler(Handler):
 class OfficialCommentHandler(Handler):
     async def post(self):
         if self.check_official():
-            ret = self.database.comment(**self.parse_data(ticket_id=int, text=str))
+            ret = self.database.official_comment(**self.parse_data(ticket_id=int, text=str))
             await self.finish({"success": ret})
 
 
