@@ -235,6 +235,7 @@ class NewHandler(Handler):
                         file.write(uploads[filename])
             else:
                 await self.finish({"ticket_id": -1, "success": False, "uploaded": False})
+                return
             ret, ticket_id = self.database.create_ticket(user_id=user_id, files=list(uploads.keys()),
                                         **self.parse_data(
                                             title=str,
