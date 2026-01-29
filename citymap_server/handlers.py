@@ -178,6 +178,9 @@ class FeedHandler(Handler):
 class TicketHandler(Handler):
     async def get(self):
         ticket = self.database.get_ticket(**self.parse_url(ticket_id=int))
+        if len(ticket) == 0:
+            self.send_error(404)
+            return 
         user_data = self.database.get_user_data(user_id=ticket["user_id"])
         ticket["fullname"] = f"{user_data['firstname']} {user_data['lastname'][0]}."
         ticket["likes"] = len(ticket["likes"])
