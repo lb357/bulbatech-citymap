@@ -16,7 +16,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Server {
   static ClientController? clientController; 
-  static final String connectUrl = "https://citymap.bulbatech.top";
+  static final String connectUrl = "";
   static late PersistCookieJar cookieJar;
   static bool _initialized = false;
 
