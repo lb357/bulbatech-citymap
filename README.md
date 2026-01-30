@@ -24,7 +24,7 @@ git clone https://github.com/lb357/bulbatech-citymap
 cd citymap_server
 ```
 
-2. Install requirements
+2. Install requirements:
 ```bash
 pip install tornado
 ```
