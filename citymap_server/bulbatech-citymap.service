@@ -1,0 +1,14 @@
+[Unit]
+Description=bulbatech-citymap server
+After=multi-user.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+Restart=always
+WorkingDirectory=<BULBATECH_CITYMAP_SERVER_PATH>
+ExecStart=/usr/bin/python3 <BULBATECH_CITYMAP_SERVER_PATH>/main.py
+
+[Install]
+WantedBy=multi-user.target
