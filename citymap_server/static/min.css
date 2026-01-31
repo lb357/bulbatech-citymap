@@ -1,9 +1,9 @@
 :root {
     --text-color: #333;
     --background-color: #f9f9f9;
-    --primary-color: #007bff;
+    --primary-color: #0D9488;
     --border-color: #ddd;
-    --font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-family: 'Arial', sans-serif;
 }
 
 body {
@@ -116,9 +116,9 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0D4D56;
 }
 
 button:active {
-    background-color: #004085;
+    background-color: #186F65;
 }

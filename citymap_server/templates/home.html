@@ -1,13 +1,94 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <title>Карта предложений {{ official_place }}</title>
-    </head>
-    <body>
-        <h1>Карта предложений {{ official_place }}</h1>
-        <h2>BulbaTech-citymap v.{{ version }}</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта предложений {{ official_place }}</title>
+    <link href="/static/home.css" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container">
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+    </div>
 
-        <h3>Сервис реализован на основе BulbaTech-citymap</h3>
-    </body>
+    <div class="container">
+        <main class="left-panel">
+            <h1>Карта предложений <br> <span class="highlight-place">{{ official_place }}</span></h1>
+            <p class="description">
+                Цифровая платформа для сбора и визуализации предложений граждан по развитию общественных пространств
+            </p>
+
+            <div class="store-buttons">
+                <a href="/static/app.apk" class="store-btn">
+                    <svg viewBox="0 0 36 24" fill="currentColor">
+                        <path d="M23.35 12.653l2.496-4.323c0.044-0.074 0.070-0.164 0.070-0.26 0-0.287-0.232-0.519-0.519-0.519-0.191 0-0.358 0.103-0.448 0.257l-0.001 0.002-2.527 4.377c-1.887-0.867-4.094-1.373-6.419-1.373s-4.532 0.506-6.517 1.413l0.098-0.040-2.527-4.378c-0.091-0.156-0.259-0.26-0.45-0.26-0.287 0-0.519 0.232-0.519 0.519 0 0.096 0.026 0.185 0.071 0.262l-0.001-0.002 2.496 4.323c-4.286 2.367-7.236 6.697-7.643 11.744l-0.003 0.052h29.991c-0.41-5.099-3.36-9.429-7.57-11.758l-0.076-0.038zM9.098 20.176c-0 0-0 0-0 0-0.69 0-1.249-0.559-1.249-1.249s0.559-1.249 1.249-1.249c0.69 0 1.249 0.559 1.249 1.249v0c-0.001 0.689-0.559 1.248-1.249 1.249h-0zM22.902 20.176c-0 0-0 0-0 0-0.69 0-1.249-0.559-1.249-1.249s0.559-1.249 1.249-1.249c0.69 0 1.249 0.559 1.249 1.249v0c-0.001 0.689-0.559 1.248-1.249 1.249h-0z"/>
+                    </svg>
+                    <div class="btn-text">
+                        <span>Доступно на</span>
+                        <span>Android</span>
+                    </div>
+                </a>
+
+                <a class="store-btn disabled">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.63 14.67,2.01 15.65,2.01C15.8,2.01 15.95,2.01 16.11,2.03C16.12,3.18 15.68,4.33 14.94,5.19C14.21,6.04 13.07,6.72 11.95,6.61C11.8,6.61 11.64,6.61 11.5,6.58C11.51,5.41 12.01,4.34 13,3.5Z"/>
+                    </svg>
+                    <div class="btn-text">
+                        <span>Скоро на</span>
+                        <span>iOS</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="legal-block">
+                <p>Используя настоящий сервис, вы выражаете согласие с</p>
+                <a href="/legal">правилами пользования и политикой обработки персональных данных</a>
+            </div>
+
+            <div class="version-info">
+                BulbaTech-citymap v.{{ version }}
+            </div>
+        </main>
+
+        <aside class="right-panel">
+            <div class="card">
+                <h2>Улучши свой населенный пункт!</h2>
+                
+                <div class="illustration-area">
+                    <svg class="tree-svg" viewBox="0 0 400 200">
+                        <path d="M0,160 Q100,120 200,160 T400,160 L400,200 L0,200 Z" fill="#B5CB99"/>
+                        <path d="M-50,180 Q80,140 180,180 T450,180 L450,200 L-50,200 Z" fill="var(--secondary-teal)" opacity="0.1"/>
+                        
+                        <g transform="translate(50, 60)">
+                            <circle cx="30" cy="30" r="30" fill="var(--secondary-teal)"/>
+                            <circle cx="15" cy="50" r="25" fill="var(--secondary-teal)"/>
+                            <circle cx="45" cy="50" r="25" fill="var(--secondary-teal)"/>
+                            <rect x="25" y="70" width="10" height="40" fill="#7C5342"/>
+                        </g>
+
+                        <g transform="translate(280, 40)">
+                            <path d="M30,0 L60,50 L45,50 L70,90 L50,90 L80,130 L-20,130 L10,90 L-10,90 L15,50 L0,50 Z" fill="var(--secondary-teal)"/>
+                            <rect x="25" y="130" width="10" height="20" fill="#7C5342"/>
+                        </g>
+
+                        <g transform="translate(180, 100)">
+                            <circle cx="20" cy="20" r="20" fill="var(--light-teal)"/>
+                            <rect x="18" y="35" width="4" height="25" fill="#7C5342"/>
+                        </g>
+                        
+                        <g transform="translate(20, 20)" opacity="0.7">
+                            <circle cx="20" cy="20" r="15" fill="#fff"/>
+                            <circle cx="40" cy="20" r="20" fill="#fff"/>
+                            <circle cx="60" cy="20" r="15" fill="#fff"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
 </html>
