@@ -1,0 +1,10 @@
+[27.01.2026 21:38:48] INFO / <module> (main): BulbaTech-citymap server starting...
+[27.01.2026 21:38:48] INFO / load_config (config): Config loading...
+[27.01.2026 21:38:48] INFO / load_config (config): Config loaded!
+[27.01.2026 21:38:48] INFO / initialize_system (database): Database initializing...
+[27.01.2026 21:38:48] INFO / initialize_system (database): Database initialization is completed!
+[27.01.2026 21:38:48] INFO / <module> (main): BulbaTech-citymap server started!
+[27.01.2026 21:38:48] INFO / <module> (main): CORS enabled for all /api/* endpoints
+[27.01.2026 21:38:48] INFO / <module> (main): Server listening on port 8888
+[27.01.2026 21:38:48] INFO / <module> (main): Test: http://127.0.0.1:8888/api/status
+[27.01.2026 21:38:48] DEBUG / __init__ (proactor_events): Using proactor: IocpProactor
