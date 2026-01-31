@@ -33,7 +33,7 @@ flutter pub get
 
 ```dart
 ...
-19. final String coonectUrl = "<your-service-url>"
+19. final String connectUrl = "<your-service-url>"
 ...
 ```
 
