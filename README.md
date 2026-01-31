@@ -61,6 +61,7 @@ sudo apt install python3-tornado
 python main.py
 ```
 optionally, systemd service can be used / опционально может использоваться systemd служба
+
 (see / см. `citymap_server/bulbatech-citymap.service`)
 
 ## 👥 Authors / Авторы
